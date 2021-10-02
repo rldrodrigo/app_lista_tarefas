@@ -40,7 +40,11 @@ if ($acao == 'inserir') {
 
     if ($tarefaService->atualizar()) {
         //Seria possível através do GET passa um parâmetro e exibir uma mensagem de confirmação
-        header('Location:todas_tarefas.php');
+        if (isset($_GET['pag']) && $_GET['pag'] == 'index') {
+            header('Location:index.php');
+        } else {
+            header('Location:todas_tarefas.php');
+        }
     } else {
         //Seria possível através do GET passa um parâmetro e exibir uma mensagem de erro
         //header('Location:todas_tarefas.php');
@@ -54,7 +58,11 @@ if ($acao == 'inserir') {
     $tarefaService = new TarefaService($conexao, $tarefa);
     $tarefaService->remover();
 
-    header('Location:todas_tarefas.php');
+    if (isset($_GET['pag']) && $_GET['pag'] == 'index') {
+        header('Location:index.php');
+    } else {
+        header('Location:todas_tarefas.php');
+    }
 } else if ($acao == 'marcarRealizada') {
 
     $tarefa = new Tarefa();
@@ -66,5 +74,18 @@ if ($acao == 'inserir') {
     $tarefaService = new TarefaService($conexao, $tarefa);
     $tarefaService->marcarRealizada();
 
-    header('Location:todas_tarefas.php');
+    if (isset($_GET['pag']) && $_GET['pag'] == 'index') {
+        header('Location:index.php');
+    } else {
+        header('Location:todas_tarefas.php');
+    }
+} else if ($acao == 'recuperarTarefasPendentes') {
+
+    $tarefa = new Tarefa();
+    $tarefa->__set('id_status', 1);
+    $conexao = new Conexao();
+
+    $tarefaService = new TarefaService($conexao, $tarefa);
+
+    $tarefas = $tarefaService->recuperarTarefasPendentes();
 }
