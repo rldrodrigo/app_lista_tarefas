@@ -40,11 +40,22 @@ class TarefaService
         $stmt = $this->conexao->prepare($query);
         $stmt->bindValue(':tarefa', $this->tarefa->__get('tarefa'));
         $stmt->bindValue(':id', $this->tarefa->__get('id'));
+
+        /**
+         *  É possível utilizar interrogação (?) no lugar de :tarefa e de :id, e colocar o numero ordincal no bindValue
+         *  $query = 'UPDATE tb_tarefas SET tarefa = ? WHERE id = ?';
+         *  $stmt->bindValue(1, $this->tarefa->__get('tarefa'));
+         *  $stmt->bindValue(2, $this->tarefa->__get('id'));
+         */
+
         return $stmt->execute();
     }
 
-    public function remove()
+    public function remover()
     { //delete
-
+        $query = 'DELETE FROM tb_tarefas WHERE id = :id';
+        $stmt = $this->conexao->prepare($query);
+        $stmt->bindValue(':id', $this->tarefa->__get('id'));
+        $stmt->execute();
     }
 }
