@@ -28,4 +28,21 @@ if ($acao == 'inserir') {
     $tarefaService = new TarefaService($conexao, $tarefa);
 
     $tarefas = $tarefaService->recuperar();
+} else if ($acao == 'atualizar') {
+
+    $tarefa = new Tarefa();
+    $tarefa->__set('id', $_POST['id']);
+    $tarefa->__set('tarefa', $_POST['tarefa']);
+
+    $conexao = new Conexao();
+
+    $tarefaService = new TarefaService($conexao, $tarefa);
+
+    if ($tarefaService->atualizar()) {
+        //Seria possível através do GET passa um parâmetro e exibir uma mensagem de confirmação
+        header('Location:todas_tarefas.php');
+    } else {
+        //Seria possível através do GET passa um parâmetro e exibir uma mensagem de erro
+        //header('Location:todas_tarefas.php');
+    }
 }
