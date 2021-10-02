@@ -45,7 +45,7 @@ if ($acao == 'inserir') {
         //Seria possível através do GET passa um parâmetro e exibir uma mensagem de erro
         //header('Location:todas_tarefas.php');
     }
-} else if ($acao = 'remover') {
+} else if ($acao == 'remover') {
     $tarefa = new Tarefa();
     $tarefa->__set('id', $_GET['id']);
 
@@ -53,6 +53,18 @@ if ($acao == 'inserir') {
 
     $tarefaService = new TarefaService($conexao, $tarefa);
     $tarefaService->remover();
+
+    header('Location:todas_tarefas.php');
+} else if ($acao == 'marcarRealizada') {
+
+    $tarefa = new Tarefa();
+    $tarefa->__set('id', $_GET['id']);
+    $tarefa->__set('id_status', 2);
+
+    $conexao = new Conexao();
+
+    $tarefaService = new TarefaService($conexao, $tarefa);
+    $tarefaService->marcarRealizada();
 
     header('Location:todas_tarefas.php');
 }
